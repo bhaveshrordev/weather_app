@@ -1,22 +1,58 @@
-<h1>Weather Information</h1>
+<h1 class="text-center my-4">Weather Information</h1>
 
-<%= form_with url: weather_path, method: :get, local: true do %>
-  <div>
-    <label for="city">Enter City:</label>
-    <%= text_field_tag :city, params[:city], placeholder: "Enter city name" %>
-    <%= submit_tag "Fetch Weather" %>
-  </div>
-<% end %>
+<div class="container">
+  <%= form_with url: weather_path, method: :get, local: false, data: { turbo_frame: 'weather_data' } do %>
+    <div class="mb-3">
+      <label for="city" class="form-label">Enter City:</label>
+      <%= text_field_tag :city, params[:city], placeholder: "Enter city name", class: "form-control" %>
+    </div>
 
-<% if @weather_data.present? && @weather_data["location"].present? && @weather_data["current"].present? %>
-  <h2>Weather Details for <%= @weather_data["location"]["name"] %>, <%= @weather_data["location"]["region"] %></h2>
-  
-  <p>Temperature: <%= @weather_data["current"]["temp_c"] %>°C</p>
-  <p>Condition: <%= @weather_data["current"]["condition"]["text"] %></p>
-  <p>Humidity: <%= @weather_data["current"]["humidity"] %>%</p>
-  <p>Wind Speed: <%= @weather_data["current"]["wind_kph"] %> kph</p>
+    <%= submit_tag "Fetch Weather", class: "btn btn-primary w-100" %>
+  <% end %>
 
-  <%= link_to "Refresh Weather Data", weather_path(city: params[:city]), class: "btn btn-primary" %>
-<% elsif params[:city].present? %>
-  <p>No data found for "<%= params[:city] %>". Please try again.</p>
-<% end %>
+  <%= turbo_frame_tag "weather_data" do %>
+    <% if @weather_data.present? && @weather_data["location"].present? && @weather_data["current"].present? %>
+      <div class="card mt-4 shadow-lg">
+        <div class="card-body">
+          <h2 class="card-title text-center">Weather Details for <%= @weather_data["location"]["name"] %>, <%= @weather_data["location"]["region"] %></h2>
+          
+          <table class="table table-bordered mt-3">
+            <thead class="thead-light">
+              <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Temperature</td>
+                <td><%= @weather_data["current"]["temp_c"] %>°C / <%= @weather_data["current"]["temp_f"] %>°F</td>
+              </tr>
+              <tr>
+                <td>Condition</td>
+                <td><%= @weather_data["current"]["condition"]["text"] %></td>
+              </tr>
+              <tr>
+                <td>Humidity</td>
+                <td><%= @weather_data["current"]["humidity"] %>%</td>
+              </tr>
+              <tr>
+                <td>Wind Speed</td>
+                <td><%= @weather_data["current"]["wind_kph"] %> kph</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="text-center">
+            <%= link_to "Refresh Weather Data", weather_path(city: params[:city]), class: "btn btn-outline-primary" %>
+          </div>
+        </div>
+      </div>
+    <% elsif params[:city].present? %>
+      <div class="alert alert-warning mt-4 text-center">
+        No data found for "<%= params[:city] %>". Please try again.
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
