@@ -126,6 +126,12 @@ You can now run the tests using:
 rails spec
 ```
 
+## Screenshots
+
+### 1. Fetch Weather Data
+![Fetch Weather Data](assets/images/indore_weather.png)
+
+
 ## Contributing
 
 1. Fork the repository.
