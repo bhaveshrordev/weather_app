@@ -1,4 +1,22 @@
-<div>
-  <h1 class="font-bold text-4xl">Weather#index</h1>
-  <p>Find me in app/views/weather/index.html.erb</p>
-</div>
+<h1>Weather Information</h1>
+
+<%= form_with url: weather_path, method: :get, local: true do %>
+  <div>
+    <label for="city">Enter City:</label>
+    <%= text_field_tag :city, params[:city], placeholder: "Enter city name" %>
+    <%= submit_tag "Fetch Weather" %>
+  </div>
+<% end %>
+
+<% if @weather_data.present? && @weather_data["location"].present? && @weather_data["current"].present? %>
+  <h2>Weather Details for <%= @weather_data["location"]["name"] %>, <%= @weather_data["location"]["region"] %></h2>
+  
+  <p>Temperature: <%= @weather_data["current"]["temp_c"] %>°C</p>
+  <p>Condition: <%= @weather_data["current"]["condition"]["text"] %></p>
+  <p>Humidity: <%= @weather_data["current"]["humidity"] %>%</p>
+  <p>Wind Speed: <%= @weather_data["current"]["wind_kph"] %> kph</p>
+
+  <%= link_to "Refresh Weather Data", weather_path(city: params[:city]), class: "btn btn-primary" %>
+<% elsif params[:city].present? %>
+  <p>No data found for "<%= params[:city] %>". Please try again.</p>
+<% end %>
