@@ -13,10 +13,10 @@
   <% @weather_data["forecast"]["forecastday"].each do |forecast| %>
     <tbody>
       <tr>
-        <td><%= Date.parse(forecast["date"]).strftime("%A, %B %d, %Y") %></td>
-        <td><%= forecast["day"]["maxtemp_c"] %>°C / <%= forecast["day"]["maxtemp_f"] %>°F</td>
-        <td><%= forecast["day"]["mintemp_c"] %>°C / <%= forecast["day"]["mintemp_f"] %>°F</td>
-        <td><%= forecast["day"]["avgtemp_c"] %>°C / <%= forecast["day"]["avgtemp_f"] %>°F</td>
+        <td><%= formatted_date(forecast["date"]) %></td>
+        <td><%= format_temperature(forecast["day"]["maxtemp_c"], forecast["day"]["maxtemp_f"]) %></td>
+        <td><%= format_temperature(forecast["day"]["mintemp_c"], forecast["day"]["mintemp_f"]) %></td>
+        <td><%= format_temperature(forecast["day"]["avgtemp_c"], forecast["day"]["avgtemp_f"]) %></td>
       </tr>
     </tbody>
   <% end %>

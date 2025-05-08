@@ -10,7 +10,8 @@ class WeatherController < ApplicationController
       @weather_data = WeatherService.fetch_weather(city)
     else
       # If no city is provided, set an error message to display in the view.
-      @weather_data = { "error" => "City parameter is required" }
+      flash.now[:alert] = "Please enter a city name to fetch weather data."
+      return
     end
   end
 end

@@ -1,4 +1,12 @@
 <%= turbo_frame_tag "weather_data" do %>
+
+  <% if flash[:alert] %>
+    <div class="alert alert-warning mt-4 text-center">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  
   <% if @weather_data.present? && @weather_data["location"].present? && @weather_data["current"].present? %>
     <div class="card mt-4 shadow-lg">
       <div class="card-body">
@@ -14,7 +22,7 @@
           <tbody>
             <tr>
               <td>Temperature</td>
-              <td><%= @weather_data["current"]["temp_c"] %>°C / <%= @weather_data["current"]["temp_f"] %>°F</td>
+              <td><%= format_temperature(@weather_data["current"]["temp_c"], @weather_data["current"]["temp_f"]) %></td>
             </tr>
             <tr>
               <td>Condition</td>
@@ -33,11 +41,7 @@
 
         <%= render partial: 'weather/forecast_data' %>
 
-        <% if @weather_data["from_cache"] %>
-          <p class="text-dark text-center">Data fetched from cache.</p>
-        <% else %>
-          <p class="text-dark text-center">Data fetched from the API.</p>
-        <% end %>
+        <%= "Data Source : "%> <%= weather_data_source(@weather_data["from_cache"]) %>
 
         <div class="text-center">
           <%= link_to "Close Details", root_path, class: "btn btn-outline-primary" %>
