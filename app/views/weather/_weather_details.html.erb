@@ -55,6 +55,12 @@
             <% end %>
           </table>
 
+          <% if @weather_data["from_cache"] %>
+            <p class="text-dark text-center">Data fetched from cache.</p>
+          <% else %>
+            <p class="text-dark text-center">Data fetched from the API.</p>
+          <% end %>
+
           <div class="text-center">
             <%= link_to "Close Details", root_path, class: "btn btn-outline-primary" %>
           </div>
