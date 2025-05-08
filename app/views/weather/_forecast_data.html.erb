@@ -1,0 +1,23 @@
+<h2 class="card-title text-center">Forecast Data</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Maximum Temperature</th>
+      <th>Minimum Temperature</th>
+      <th>Average Temperature</th>
+    </tr>
+  </thead>
+
+  <% @weather_data["forecast"]["forecastday"].each do |forecast| %>
+    <tbody>
+      <tr>
+        <td><%= Date.parse(forecast["date"]).strftime("%A, %B %d, %Y") %></td>
+        <td><%= forecast["day"]["maxtemp_c"] %>°C / <%= forecast["day"]["maxtemp_f"] %>°F</td>
+        <td><%= forecast["day"]["mintemp_c"] %>°C / <%= forecast["day"]["mintemp_f"] %>°F</td>
+        <td><%= forecast["day"]["avgtemp_c"] %>°C / <%= forecast["day"]["avgtemp_f"] %>°F</td>
+      </tr>
+    </tbody>
+  <% end %>
+</table>
